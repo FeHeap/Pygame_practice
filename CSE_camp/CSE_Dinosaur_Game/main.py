@@ -34,10 +34,6 @@ class Player(pygame.sprite.Sprite):
         self.img = pygame.image.load("conlon.png")
         self.surf = pygame.Surface((50, 70))
         self.rect = self.surf.get_rect(center=(190, 445))
-        print(self.rect.top)
-        print(self.rect.bottom)
-        print(self.rect.left)
-        print(self.rect.right)
 
         self.jumpState = 0
         self.jumpSpeed = 0
@@ -58,20 +54,12 @@ class Player(pygame.sprite.Sprite):
             if pressed_keys[pygame.K_SPACE]:
                 self.jumpState = 1
                 self.jumpSpeed = -10
-        print("palyer")
-        print(self.rect.top)
-        print(self.rect.bottom)
-        print(self.rect.left)
-        print(self.rect.right)
-        print("playerrrrr")
 
 
 class Stone(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.img = pygame.image.load("stone.png")
-        #self.surf = pygame.Surface((60, 35))
-
         self.rect = self.img.get_rect(center=(1220, 470))
 
 
@@ -79,14 +67,8 @@ class Stone(pygame.sprite.Sprite):
 
         global others_speed
         self.rect.move_ip((speed, 0))
-        print("stone")
-        print(self.rect.top)
-        print(self.rect.bottom)
-        print(self.rect.left)
-        print(self.rect.right)
-        print("stonesssssssssssss")
         if self.rect.x <= -82:
-            self.rect.x = 1220 + random.randint(0, 200)
+            self.rect.x = 1220 + random.randint(0, 2000)
 
 
 class Background():
@@ -157,14 +139,6 @@ def main():
             # 精靈渲染
             screen.blit(sprite.img, sprite.rect)
 
-            pygame.draw.line(screen, (255, 0, 0), (sprite.rect.right, sprite.rect.top), (sprite.rect.right, sprite.rect.bottom))
-            pygame.draw.line(screen, (0, 0, 255), (sprite.rect.left, sprite.rect.top),
-                             (sprite.rect.left, sprite.rect.bottom))
-            pygame.draw.line(screen, (0, 255, 0), (sprite.rect.right, sprite.rect.top),
-                             (sprite.rect.left, sprite.rect.top))
-            pygame.draw.line(screen, (0, 255, 0), (sprite.rect.right, sprite.rect.bottom),
-                             (sprite.rect.left, sprite.rect.bottom))
-
 
         for event in pygame.event.get():  # 從事件佇列中獲取事件
             if event.type == pygame.QUIT:  # 若事件為"退出"
@@ -175,11 +149,10 @@ def main():
 
         # 碰撞偵測
         if pygame.sprite.spritecollide(player, stones, False):
-            print("collide")
+
             pygame.mixer.Sound("collision.wav").play()
-            print("sleep")
+
             time.sleep(1)
-            print("sleep over")
 
             screen.fill("#ff0000")
             screen.blit(game_over, (450, 150))
